@@ -1,47 +1,47 @@
 import React from 'react'
 import './style.css'
+import { SingleItem } from '../SingleItem/SingleItem'
+import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faCirclePlay } from '@fortawesome/free-solid-svg-icons'
 
-export const ItemList = () => {
+export const ItemList = ({title, items, itemsArray, path,individualPath}) => {
+
   return (
-    <div className='main'>
       <div className='itemList'>
 
         <div className='itemList-header'>
 
-          <h2>Artistas Populares</h2>
-          <a className='itemList-link' href="/">mostrar tudo</a>
+          <h2>{title} Populares</h2>
+          <Link className='itemList-link' to={path}>mostrar tudo</Link>
 
         </div>
 
-
         <div className='itemList-container'>
-          <div className='singleItem'>
-            <div className='singleItem-div-image-button'>
-              <div className='singleItem-div-image'>
-                <img className='singleItem-image' src="https://i.scdn.co/image/ab676161000051744dcd8a3bff84cd7703892cf4" alt="imagem do artista X"/>
-              </div>
-              <FontAwesomeIcon className='singleItem-icon' icon={faCirclePlay} />
-            </div>
-            <div className='singleItem-texts'>
-              <div className='singleItem-2lines'>
-                <p className='singleItem-textTitle '>Henrique & Juliano</p>
-              </div>
-
-              <p className='singleItem-type'>artista</p>
-
-            </div>
-          </div>
+          {itemsArray.filter((_,index) =>{
+            return index < items
+          }).map((currobj, index) => {
+              return (
+              <SingleItem
+                idPath = {individualPath}
+                {...currobj}
+                key={`${title}-${index}`}
+              />
+            )})}
         </div>
 
       </div>
-    </div>
 
   )
 }
 
+ItemList.propTypes ={
+  title: PropTypes.string.isRequired,
+  items: PropTypes.number.isRequired,
+  itemsArray: PropTypes.array,
+  path: PropTypes.string.isRequired,
+  individualPath: PropTypes.string.isRequired
+}
 
 
 
